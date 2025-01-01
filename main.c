@@ -59,17 +59,18 @@ void process_packet(unsigned char* buffer, int data_size)
     {
         case 6:
             ++tcp;
-//            print_tcp_packet(buffer, data_size);
+            print_tcp_packet(buffer, data_size);
             break;
         case 17:
             ++udp;
+            print_udp_packet(buffer, data_size);
             break;
         default:
             ++others;
             break;
     }
 
-    printf("TCP: %d\tUDP: %d\t Others: %d\t Total: %d\n", tcp, udp, others, total);
+    printf("TCP: %d\tUDP: %d\tOthers: %d\tTotal: %d\n", tcp, udp, others, total);
 
 }
 
@@ -87,20 +88,40 @@ void print_ip_header(unsigned char* buffer, int size)
 
     fprintf(logs_file, "\n");
     fprintf(logs_file, "\t\t\t=== IP Header Information ===\n");
-    fprintf(logs_file, "Version:\t%d\n", (unsigned int)iph->version);
-    fprintf(logs_file, "Header Length:\t%d\n", (unsigned int)iphdrlen);
-    fprintf(logs_file, "Time to Live:\t%d\n", (unsigned int)iph->ttl);
-    fprintf(logs_file, "Protocol:\t%d\n", (unsigned int)iph->protocol);
-    fprintf(logs_file, "Source Address:\t%d\n", (unsigned int)iph->saddr);
-    fprintf(logs_file, "Destination Address:\t%d\n", (unsigned int)iph->daddr);
+    fprintf(logs_file, "Version:\t%u\n", (unsigned int)iph->version);
+    fprintf(logs_file, "Header Length:\t%u\n", (unsigned int)iphdrlen);
+    fprintf(logs_file, "Time to Live:\t%u\n", (unsigned int)iph->ttl);
+    fprintf(logs_file, "Protocol:\t%u\n", (unsigned int)iph->protocol);
+    fprintf(logs_file, "Source Address:\t%u\n", (unsigned int)iph->saddr);
+    fprintf(logs_file, "Destination Address:\t%u\n", (unsigned int)iph->daddr);
 }
 
 void print_tcp_packet(unsigned char* buffer, int size)
 {
+    unsigned short int iphdrlen;
+    struct iphdr* iph = (struct iphdr*)buffer;
+    iphdrlen = iph->ihl*4;
 
+    struct tcphdr* tcph = (struct tcphdr*)(buffer + iphdrlen);
+    fprintf(logs_file, "\n");
+    fprintf(logs_file, "\t\t\t=== TCP Header Information ===\n");
+    fprintf(logs_file, "Source Port:\t%u\n", (unsigned int)tcph->th_sport);
+    fprintf(logs_file, "Destination Port:\t%u\n", (unsigned int)tcph->th_dport);
+    fprintf(logs_file, "Sequence Number:\t%u\n", (unsigned int)tcph->th_seq);
+    fprintf(logs_file, "Acknowledgement Number:\t%u\n", (unsigned int)tcph->th_ack);
+    fprintf(logs_file, "Header Length:\t%u\n", ((unsigned int)tcph->th_off*4));
 }
 
 void print_udp_packet(unsigned char* buffer, int size)
 {
+    unsigned short int iphdrlen;
+    struct iphdr* iph = (struct iphdr*)buffer;
+    iphdrlen = iph->ihl*4;
 
+    struct udphdr* udph = (struct udphdr*)(buffer + iphdrlen);
+    fprintf(logs_file, "\n");
+    fprintf(logs_file, "\t\t\t=== UDP Header Information ===\n");
+    fprintf(logs_file, "Source Port:\t%u\n", (unsigned int)udph->uh_sport);
+    fprintf(logs_file, "Destination Port:\t%u\n", (unsigned int)udph->uh_dport);
+    fprintf(logs_file, "Header Length:\t%u\n", ((unsigned int)udph->uh_ulen));
 }
