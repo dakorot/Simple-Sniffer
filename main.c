@@ -57,7 +57,6 @@ void process_packet(unsigned char* buffer, int data_size)
     struct iphdr *ip_header = (struct iphdr*)(buffer + sizeof(struct ethhdr));
 
     ++total;
-    printf("\n\n==test== ip_header->protocol:%u\n\n", ip_header->protocol);
     switch(ip_header->protocol)
     {
         case 6:
@@ -82,8 +81,8 @@ void print_ethernet_header(unsigned char* buffer, int data_size)
     fprintf(logs_file, "\n");
     fprintf(logs_file, "\t\t* Ethernet Header Information *\n");
     fprintf(logs_file, "Destination Address:\t%.2X %.2X %.2X %.2X %.2X %.2X\n", eth_header->h_dest[0], eth_header->h_dest[1], eth_header->h_dest[2], eth_header->h_dest[3], eth_header->h_dest[4], eth_header->h_dest[5]);
-    fprintf(logs_file, "Source Address:\t%.2X %.2X %.2X %.2X %.2X %.2X\n", eth_header->h_source[0], eth_header->h_source[1], eth_header->h_source[2], eth_header->h_source[3], eth_header->h_source[4], eth_header->h_source[5]);
-    fprintf(logs_file, "Protocol:\t%u\n", (unsigned short int)eth_header->h_proto);
+    fprintf(logs_file, "Source Address:\t\t\t%.2X %.2X %.2X %.2X %.2X %.2X\n", eth_header->h_source[0], eth_header->h_source[1], eth_header->h_source[2], eth_header->h_source[3], eth_header->h_source[4], eth_header->h_source[5]);
+    fprintf(logs_file, "Protocol:\t\t\t\t%u\n", (unsigned short int)eth_header->h_proto);
 }
 
 void print_ip_header(unsigned char* buffer, int data_size)
@@ -102,11 +101,11 @@ void print_ip_header(unsigned char* buffer, int data_size)
 
     fprintf(logs_file, "\n");
     fprintf(logs_file, "\t\t* IP Header Information *\n");
-    fprintf(logs_file, "Version:\t%u\n", (unsigned int)ip_header->version);
-    fprintf(logs_file, "Header Length:\t%u\n", (unsigned int)ip_header_len);
-    fprintf(logs_file, "Time to Live:\t%u\n", (unsigned int)ip_header->ttl);
-    fprintf(logs_file, "Protocol:\t%u\n", (unsigned int)ip_header->protocol);
-    fprintf(logs_file, "Source Address:\t%u\n", (unsigned int)ip_header->saddr);
+    fprintf(logs_file, "Version:\t\t\t\t%u\n", (unsigned int)ip_header->version);
+    fprintf(logs_file, "Header Length:\t\t\t%u\n", (unsigned int)ip_header_len);
+    fprintf(logs_file, "Time to Live:\t\t\t%u\n", (unsigned int)ip_header->ttl);
+    fprintf(logs_file, "Protocol:\t\t\t\t%u\n", (unsigned int)ip_header->protocol);
+    fprintf(logs_file, "Source Address:\t\t\t%u\n", (unsigned int)ip_header->saddr);
     fprintf(logs_file, "Destination Address:\t%u\n", (unsigned int)ip_header->daddr);
 }
 
@@ -126,7 +125,7 @@ void print_tcp_packet(unsigned char* buffer, int data_size)
     fprintf(logs_file, "Sequence Number:\t\t%u\n", ntohl(tcp_header->th_seq));
     fprintf(logs_file, "Acknowledgement Number:\t%u\n", ntohl(tcp_header->th_ack));
     fprintf(logs_file, "Header Length:\t\t\t%u\n", (unsigned int)tcp_header->th_off*4);
-    fprintf(logs_file, "\n\t**********************************************");
+    fprintf(logs_file, "\n\t**********************************************\n\n");
 }
 
 void print_udp_packet(unsigned char* buffer, int data_size)
@@ -140,8 +139,8 @@ void print_udp_packet(unsigned char* buffer, int data_size)
     fprintf(logs_file, "\t\t\t=== UDP Header Information ===\n");
     print_ip_header(buffer, data_size);
     fprintf(logs_file, "\n");
-    fprintf(logs_file, "Source Port:\t\t%u\n", ntohs(udp_header->uh_sport));
-    fprintf(logs_file, "Destination Port:\t%u\n", ntohs(udp_header->uh_dport));
-    fprintf(logs_file, "Header Length:\t\t%u\n", (unsigned int)udp_header->uh_ulen);
-    fprintf(logs_file, "\n\t**********************************************");
+    fprintf(logs_file, "Source Port:\t\t\t%u\n", ntohs(udp_header->uh_sport));
+    fprintf(logs_file, "Destination Port:\t\t%u\n", ntohs(udp_header->uh_dport));
+    fprintf(logs_file, "Header Length:\t\t\t%u\n", (unsigned int)udp_header->uh_ulen);
+    fprintf(logs_file, "\n\t**********************************************\n\n");
 }
