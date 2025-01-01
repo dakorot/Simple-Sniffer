@@ -98,30 +98,30 @@ void print_ip_header(unsigned char* buffer, int size)
 
 void print_tcp_packet(unsigned char* buffer, int size)
 {
-    unsigned short int iphdrlen;
+    unsigned short int ip_header_len;
     struct iphdr* ip_header= (struct iphdr*)buffer;
-    iphdrlen = ip_header->ihl*4;
+    ip_header_len = ip_header->ihl*4;
 
-    struct tcphdr* tcph = (struct tcphdr*)(buffer + iphdrlen);
+    struct tcphdr* tcp_header= (struct tcphdr*)(buffer + ip_header_len);
     fprintf(logs_file, "\n");
     fprintf(logs_file, "\t\t\t=== TCP Header Information ===\n");
-    fprintf(logs_file, "Source Port:\t%u\n", (unsigned int)tcph->th_sport);
-    fprintf(logs_file, "Destination Port:\t%u\n", (unsigned int)tcph->th_dport);
-    fprintf(logs_file, "Sequence Number:\t%u\n", (unsigned int)tcph->th_seq);
-    fprintf(logs_file, "Acknowledgement Number:\t%u\n", (unsigned int)tcph->th_ack);
-    fprintf(logs_file, "Header Length:\t%u\n", ((unsigned int)tcph->th_off*4));
+    fprintf(logs_file, "Source Port:\t%u\n", (unsigned int)tcp_header->th_sport);
+    fprintf(logs_file, "Destination Port:\t%u\n", (unsigned int)tcp_header->th_dport);
+    fprintf(logs_file, "Sequence Number:\t%u\n", (unsigned int)tcp_header->th_seq);
+    fprintf(logs_file, "Acknowledgement Number:\t%u\n", (unsigned int)tcp_header->th_ack);
+    fprintf(logs_file, "Header Length:\t%u\n", ((unsigned int)tcp_header->th_off*4));
 }
 
 void print_udp_packet(unsigned char* buffer, int size)
 {
-    unsigned short int iphdrlen;
+    unsigned short int ip_header_len;
     struct iphdr* ip_header= (struct iphdr*)buffer;
-    iphdrlen = ip_header->ihl*4;
+    ip_header_len = ip_header->ihl*4;
 
-    struct udphdr* udph = (struct udphdr*)(buffer + iphdrlen);
+    struct udphdr* udp_header= (struct udphdr*)(buffer + ip_header_len);
     fprintf(logs_file, "\n");
     fprintf(logs_file, "\t\t\t=== UDP Header Information ===\n");
-    fprintf(logs_file, "Source Port:\t%u\n", (unsigned int)udph->uh_sport);
-    fprintf(logs_file, "Destination Port:\t%u\n", (unsigned int)udph->uh_dport);
-    fprintf(logs_file, "Header Length:\t%u\n", ((unsigned int)udph->uh_ulen));
+    fprintf(logs_file, "Source Port:\t%u\n", (unsigned int)udp_header->uh_sport);
+    fprintf(logs_file, "Destination Port:\t%u\n", (unsigned int)udp_header->uh_dport);
+    fprintf(logs_file, "Header Length:\t%u\n", ((unsigned int)udp_header->uh_ulen));
 }
