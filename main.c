@@ -52,10 +52,10 @@ int main()
 
 void process_packet(unsigned char* buffer, int data_size)
 {
-    struct iphdr *iph = (struct iphdr*)buffer;
+    struct iphdr *ip_header = (struct iphdr*)buffer;
 
     ++total;
-    switch(iph->protocol)
+    switch(ip_header->protocol)
     {
         case 6:
             ++tcp;
@@ -76,31 +76,31 @@ void process_packet(unsigned char* buffer, int data_size)
 
 void print_ip_header(unsigned char* buffer, int size)
 {
-    unsigned short iphdrlen;
-    struct iphdr *iph = (struct iphdr*)buffer;
-    iphdrlen = iph->ihl*4;
+    unsigned short ip_header_len;
+    struct iphdr *ip_header = (struct iphdr*)buffer;
+    ip_header_len = ip_header->ihl*4;
 
     memset(&src, 0, sizeof(src));
-    src.sin_addr.s_addr = iph->saddr;
+    src.sin_addr.s_addr = ip_header->saddr;
 
     memset(&dst, 0, sizeof(dst));
-    dst.sin_addr.s_addr = iph->saddr;
+    dst.sin_addr.s_addr = ip_header->saddr;
 
     fprintf(logs_file, "\n");
     fprintf(logs_file, "\t\t\t=== IP Header Information ===\n");
-    fprintf(logs_file, "Version:\t%u\n", (unsigned int)iph->version);
-    fprintf(logs_file, "Header Length:\t%u\n", (unsigned int)iphdrlen);
-    fprintf(logs_file, "Time to Live:\t%u\n", (unsigned int)iph->ttl);
-    fprintf(logs_file, "Protocol:\t%u\n", (unsigned int)iph->protocol);
-    fprintf(logs_file, "Source Address:\t%u\n", (unsigned int)iph->saddr);
-    fprintf(logs_file, "Destination Address:\t%u\n", (unsigned int)iph->daddr);
+    fprintf(logs_file, "Version:\t%u\n", (unsigned int)ip_header->version);
+    fprintf(logs_file, "Header Length:\t%u\n", (unsigned int)ip_header_len);
+    fprintf(logs_file, "Time to Live:\t%u\n", (unsigned int)ip_header->ttl);
+    fprintf(logs_file, "Protocol:\t%u\n", (unsigned int)ip_header->protocol);
+    fprintf(logs_file, "Source Address:\t%u\n", (unsigned int)ip_header->saddr);
+    fprintf(logs_file, "Destination Address:\t%u\n", (unsigned int)ip_header->daddr);
 }
 
 void print_tcp_packet(unsigned char* buffer, int size)
 {
     unsigned short int iphdrlen;
-    struct iphdr* iph = (struct iphdr*)buffer;
-    iphdrlen = iph->ihl*4;
+    struct iphdr* ip_header= (struct iphdr*)buffer;
+    iphdrlen = ip_header->ihl*4;
 
     struct tcphdr* tcph = (struct tcphdr*)(buffer + iphdrlen);
     fprintf(logs_file, "\n");
@@ -115,8 +115,8 @@ void print_tcp_packet(unsigned char* buffer, int size)
 void print_udp_packet(unsigned char* buffer, int size)
 {
     unsigned short int iphdrlen;
-    struct iphdr* iph = (struct iphdr*)buffer;
-    iphdrlen = iph->ihl*4;
+    struct iphdr* ip_header= (struct iphdr*)buffer;
+    iphdrlen = ip_header->ihl*4;
 
     struct udphdr* udph = (struct udphdr*)(buffer + iphdrlen);
     fprintf(logs_file, "\n");
