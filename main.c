@@ -3,6 +3,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 #include <linux/if_ether.h>
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
@@ -23,8 +24,7 @@ int main()
 {
     int saddr_size, data_size;
     struct sockaddr saddr;
-    struct in_addr in;
-    unsigned char* buffer = (unsigned char*)malloc(65536); //2^16 - 1
+    unsigned char* buffer = (unsigned char*)malloc(65536);
 
 
     logs_file = fopen("logs.txt", "w");
@@ -97,7 +97,7 @@ void print_ip_header(unsigned char* buffer, int data_size)
     src.sin_addr.s_addr = ip_header->saddr;
 
     memset(&dst, 0, sizeof(dst));
-    dst.sin_addr.s_addr = ip_header->saddr;
+    dst.sin_addr.s_addr = ip_header->daddr;
 
     fprintf(logs_file, "\n");
     fprintf(logs_file, "\t\t* IP Header Information *\n");
@@ -105,8 +105,8 @@ void print_ip_header(unsigned char* buffer, int data_size)
     fprintf(logs_file, "Header Length:\t\t\t%u\n", (unsigned int)ip_header_len);
     fprintf(logs_file, "Time to Live:\t\t\t%u\n", (unsigned int)ip_header->ttl);
     fprintf(logs_file, "Protocol:\t\t\t\t%u\n", (unsigned int)ip_header->protocol);
-    fprintf(logs_file, "Source Address:\t\t\t%u\n", (unsigned int)ip_header->saddr);
-    fprintf(logs_file, "Destination Address:\t%u\n", (unsigned int)ip_header->daddr);
+    fprintf(logs_file, "Source Address:\t\t\t%s\n", inet_ntoa(src.sin_addr));
+    fprintf(logs_file, "Destination Address:\t%s\n", inet_ntoa(dst.sin_addr));
 }
 
 void print_tcp_packet(unsigned char* buffer, int data_size)
