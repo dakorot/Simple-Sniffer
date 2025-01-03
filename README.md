@@ -1,7 +1,7 @@
 # Simple Sniffer
 
 ## Description 
-This is a simple packet analyser, 'packet sniffer', developed in C with use of standard libraries along with netinet, linux headers for internet protocols' definitions.
+This is a simple packet analyser, a 'packet sniffer', developed in C with use of standard libraries along with netinet, linux headers for internet protocols' definitions.
 
 ## Table of Contents
 - [Installation](#installation)
