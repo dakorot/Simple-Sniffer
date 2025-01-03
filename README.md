@@ -13,7 +13,7 @@ This is a simple packet analyser, a 'packet sniffer', developed in C with use of
 ## Installation 
 1. This packet analyser is only compatible with Linux, so you would want to either install Linux normally or install a virtual machine with Linux on it.
    1. Download and install a virtual machine, for example [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
-   2. Download an image of Linux, for example [Ubuntu](#https://ubuntu.com/download/desktop#support).
+   2. Download an image of Linux, for example [Ubuntu](https://ubuntu.com/download/desktop#support).
    3. Create a virtual machine in VirtualBox where you choose the Ubuntu image you have previously downloaded. 
    4. Run your Linux.
 2. Clone the [repository](https://github.com/dakorot/Simple-Sniffer.git).
