@@ -1,7 +1,7 @@
 # Simple Sniffer
 
 ## Description 
-This is a simple packet analyser, a 'packet sniffer', developed in C with use of standard libraries along with netinet, linux headers for internet protocols' definitions.
+This is a simple packet analyser, a 'packet sniffer', developed in C with use of standard libraries along with netinet, linux headers for internet protocols' definitions and sockets in Linux.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -42,7 +42,7 @@ This is a simple packet analyser, a 'packet sniffer', developed in C with use of
 4. Check the logs.txt file!
 
 ## Features
-The sniffer is able to capture all the incoming packets but thanks to parsing only TCP, UDP and IP are filtered and written into the logs.txt file. 
+The sniffer is able to capture all the incoming and outgoing requests but thanks to parsing only TCP and UDP with IP and Ethernet headers are filtered and written into the logs.txt file. 
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
